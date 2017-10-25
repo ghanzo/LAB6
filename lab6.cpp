@@ -107,46 +107,52 @@ Stack<V>& Stack<V>::operator=(const Stack<V>&
 	return *this;
 }
 
-void operatorParser(Stack<double> &kobe, Stack<char> &kober){
-  while (kober.size() > 0){
-        int value1 = kobe.peek();
-        kobe.pop();
-        int value2 = kobe.peek();
-        kobe.pop();
-    switch(kober.peek()) {
-      case '+' : 
-        cout << value1+value2 << "\t= " << value1 << "\t+" << value2 << "\n";
-        break;
-      case '/' : cout << value2/value1 << "\t= " << value2 << "\t/" << value1 << "\n";
-        break;
-      case '-' : 
-        cout << value2-value1 << "\t= " << value2 << "\t-" << value1 << "\n";
-        break;
-      case '*' :
-        cout << value2*value1 << "\t= " << value2 << "\t*" << value1 << "\n";
-        break;
-    }
-        kober.pop();
-  }
-};
+bool opCheck(string val){
+      if( val == "+"){return true;}
+      if( val == "/")return true;
+      if (val == "-")return true;
+      if (val == "*")return true;
+      return false;
+}
+
+void calc(string val,double val1, double val2,Stack<double> &kobe){
+      if( val == "+"){kobe.push(val1+val2);}
+      else if( val == "/"){kobe.push(val2/val1);}
+      else if (val == "-"){kobe.push(val2-val1);}
+      else if (val == "*"){kobe.push(val1*val2);}
+}
+
+void stackOutput(Stack<double> &kobeCopy){
+  cout << "\n--Stack--\n"; 
+  for (int i = kobeCopy.size(); i > 0; i--){
+  cout << kobeCopy.peek() << " ";
+  kobeCopy.pop();}
+  cout << endl << endl;
+}
 
 int main (){
   Stack<double> kobe;
-  Stack<char> kober;
+  Stack<double> kobeCopy;
   
   cout << "Input values for calculations\n";
-  for (int i = 1; i < 7; i++ ) {
-    if (i % 3 == 0){
-      char operation;  
-      cin >> operation;
-      kober.push(operation);
-      continue;
-    }
-    double integer;
-    cin >> integer;
-    kobe.push(integer);
-  }
-  operatorParser(kobe, kober);
   
+  for (int i = 1; i < 9; i++ ) {
+    string joo;
+    cin >> joo;
+    if (opCheck(joo)){
+      if (kobe.size() == 1) {cout << kobe.peek() << " only value\n";break;}
+      if (kobe.size()==0) {cout << "no value\n";break;} 
+      double val1 = kobe.peek();
+      kobe.pop();
+      double val2= kobe.peek();
+      kobe.pop();
+      calc(joo,val1,val2,kobe);
+      cout << kobe.peek() << endl;
+    }
+    else kobe.push(atof(joo.c_str()));
+    kobeCopy = kobe;
+    if (kobe.size() == 1 && opCheck(joo)){cout << "Final value\n"; break;}
+    stackOutput(kobeCopy);
+  }
   return 0;
 }
