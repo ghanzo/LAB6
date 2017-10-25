@@ -115,6 +115,11 @@ bool opCheck(string val){
       return false;
 }
 
+bool quitCheck(string val){
+      if( val == "q"|| val == "Q")return true;
+      return false;
+}
+
 void calc(string val,double val1, double val2,Stack<double> &kobe){
       if( val == "+"){kobe.push(val1+val2);}
       else if( val == "/"){kobe.push(val2/val1);}
@@ -136,12 +141,11 @@ int main (){
   
   cout << "Input values for calculations\n";
   
-  for (int i = 1; i < 9; i++ ) {
+  for (int i = 1; i < 2;) {
     string joo;
     cin >> joo;
+    if (quitCheck(joo))break;
     if (opCheck(joo)){
-      if (kobe.size() == 1) {cout << kobe.peek() << " only value\n";break;}
-      if (kobe.size()==0) {cout << "no value\n";break;} 
       double val1 = kobe.peek();
       kobe.pop();
       double val2= kobe.peek();
@@ -151,7 +155,6 @@ int main (){
     }
     else kobe.push(atof(joo.c_str()));
     kobeCopy = kobe;
-    if (kobe.size() == 1 && opCheck(joo)){cout << "Final value\n"; break;}
     stackOutput(kobeCopy);
   }
   return 0;
