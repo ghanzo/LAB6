@@ -27,8 +27,11 @@ public:
 	void push(const V&);
 	void pop();
 	V& peek(){ return values[siz-1];}
-	bool empty();
+	bool empty(){if (siz == 0) return true;
+	  else return false;
+	}
   int size() const { return siz; }
+  void clear(){ siz = 0; }
   int capacity() const { return cap; }
 };
 
@@ -60,12 +63,6 @@ void Stack<V>::capacity(int cap) {
 template <typename V>
 void Stack<V>::pop(){
  if (siz > 0)siz--;
-}
-
-//is empty?
-template <typename V>
-bool Stack<V>::empty(){
- if (siz == 0) return true;
 }
 
 //constructor
@@ -139,23 +136,122 @@ int main (){
   Stack<double> kobe;
   Stack<double> kobeCopy;
   
-  cout << "Input values for calculations\n";
   
-  for (int i = 1; i < 2;) {
-    string joo;
-    cin >> joo;
-    if (quitCheck(joo))break;
-    if (opCheck(joo)){
-      double val1 = kobe.peek();
-      kobe.pop();
-      double val2= kobe.peek();
-      kobe.pop();
-      calc(joo,val1,val2,kobe);
-      cout << kobe.peek() << endl;
-    }
-    else kobe.push(atof(joo.c_str()));
-    kobeCopy = kobe;
-    stackOutput(kobeCopy);
-  }
+  cout << endl << "||||||Testing Stack with double||||||" << endl;
+	Stack <double> a(100);
+	assert(100 == a.capacity());
+	cout << "Pass!!" << endl;
+	cout << "\nTesting ::capacity\n";
+	cout << "EXPECTED: 100\n";
+	cout << "ACTUAL: " << a.capacity() << endl;
+	assert(100 == a.capacity());
+	cout << "Pass!!" << endl;
+
+	// set capacity test
+	cout << "\nTesting capacity growth\n";
+	Stack <double> f(1);
+	cout << "Expected: 1 \nActual: " << f.capacity() << endl;
+	assert(f.capacity() == 1);
+	cout<<"pushing 2 values grows cap by 2x\n"; 
+	f.push(12);
+	f.push(2);
+	cout << "Expected: 2 \nActual: " << f.capacity() << endl;
+  assert(f.capacity() == 2);
+	cout << "Pass!!" << endl;
+
+	// Object assignment
+	cout << "\nTesting object assignment\n";
+	a.push(5.5);
+	Stack <double> e(1);
+	for (int i = 0; i < 10; i++){
+	  a.push(5+i);
+	}
+	e = a;
+	assert(a.size()==e.size());
+	assert(a.capacity() == e.capacity());
+	for (int i = 0; i < 5; i++){
+		assert(a.peek() == e.peek());
+	  a.pop();
+	  e.pop();
+	}
+	cout << "Pass!!" << endl;
+	
+	// testing size
+	cout << "\nTesting size()\n";
+	cout << "a.size() = " << a.size() << endl;
+	a.pop();
+	cout << "After pop() Expected: 5 \nActual: " << a.size() << endl;
+	assert(a.size() == 5);
+		a.push(1);
+	cout << "After push() Expected: 6 \nActual: " << a.size() << endl;
+	assert(a.size() == 6);
+	
+	// testing pop
+	cout << "\nTesting pop()\n";
+	cout << "push 2, then 1\n";
+	a.push(2);
+	a.push(1);
+	cout << "a.peek() = " << a.peek() << endl;
+	a.pop();
+	cout << "After pop() Expected: 2 \nActual: " << a.peek() << endl;
+	assert(a.peek() == 2);
+	cout << "Pass\n" ;
+	
+	// testing push
+	cout << "\nTesting push()\n";
+	cout << "push 2\n";
+	a.push(2);
+	cout << "After push() Expected: 2 \nActual: " << a.peek() << endl;
+	assert(a.peek() == 2);
+	cout << "Pass\n" ;
+	
+	// testing peek
+	cout << "\nTesting peek()\n";
+	cout << "push 2\n";
+	a.push(2);
+	cout << "After push() Expected: 2 \nActual: " << a.peek() << endl;
+	assert(a.peek() == 2);
+	cout << "Pass\n" ;
+
+	// testing clear
+	cout << "\nTesting clear()\n";
+	a.clear();
+	cout << "After clear() size Expected: 0 \nActual: " << a.size() << endl;
+	assert(a.size() == 0);
+	cout << "Pass\n" ;
+
+  // testing empty
+	cout << "\nTesting empty()\n";
+	a.clear();
+	cout << "Expected: 1 \nActual: " << a.empty() << endl;
+ 	assert(a.empty() == 1);
+ 	a.push(23);
+ 	assert(a.empty() == 0);
+	cout << "Pass\n" ;
+
+  
+  
+  
+  
+  
+  
+//   cout << "Input values for calculations\n";
+  
+//   for (int i = 1; i < 2;) {
+//     string joo;
+//     cin >> joo;
+//     if (quitCheck(joo))break;
+//     if (opCheck(joo)){
+//       double val1 = kobe.peek();
+//       kobe.pop();
+//       double val2= kobe.peek();
+//       kobe.pop();
+//       calc(joo,val1,val2,kobe);
+//       cout << kobe.peek() << endl;
+//     }
+//     else kobe.push(atof(joo.c_str()));
+//     kobeCopy = kobe;
+//     stackOutput(kobeCopy);
+//   }
   return 0;
 }
