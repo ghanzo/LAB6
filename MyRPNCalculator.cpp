@@ -4,8 +4,9 @@
 #include <iostream>
 #include "Stack.TestDriver.h"
 
+
 bool opCheck(string val){
-      if( val == "+"){return true;}
+      if( val == "+")return true;
       if( val == "/")return true;
       if (val == "-")return true;
       if (val == "*")return true;
@@ -17,41 +18,42 @@ bool quitCheck(string val){
       return false;
 }
 
-void calc(string val,double val1, double val2,Stack<double> &kobe){
-      if( val == "+"){kobe.push(val1+val2);}
-      else if( val == "/"){kobe.push(val2/val1);}
-      else if (val == "-"){kobe.push(val2-val1);}
-      else if (val == "*"){kobe.push(val1*val2);}
+void calc(string val,double topValue, double secondValue,Stack<double> &calcStack){
+      if( val == "+"){calcStack.push(topValue+secondValue);}
+      else if( val == "/"){calcStack.push(secondValue/topValue);}
+      else if (val == "-"){calcStack.push(secondValue-topValue);}
+      else if (val == "*"){calcStack.push(topValue*secondValue);}
 }
 
-void stackOutput(Stack<double> &kobeCopy){
+void stackOutput(Stack<double> &calcStackCopy){
   cout << "\n--Stack--\n"; 
-  for (int i = kobeCopy.size(); i > 0; i--){
-  cout << kobeCopy.peek() << " ";
-  kobeCopy.pop();}
+  for (int i = calcStackCopy.size(); i > 0; i--){
+  cout << calcStackCopy.peek() << " ";
+  calcStackCopy.pop();}
   cout << endl << endl;
 }
 
 int main (){
-  Stack<double> kobe;
-  Stack<double> kobeCopy;
-
+  Stack<double> calcStack;
+  Stack<double> calcStackCopy;
+      
   cout << "Input values for calculations\n";
-   for (int i = 1; i < 2;) {
-     string joo;
-     cin >> joo;
-     if (quitCheck(joo))break;
-     if (opCheck(joo)){
-       double val1 = kobe.peek();
-       kobe.pop();
-       double val2= kobe.peek();
-       kobe.pop();
-       calc(joo,val1,val2,kobe);
-       cout << kobe.peek() << endl;
-     }
-     else kobe.push(atof(joo.c_str()));
-     kobeCopy = kobe;
-     stackOutput(kobeCopy);
-   }
+  for (int i = 1; i < 2;) {
+    string value;
+    cin >> value;
+    if (quitCheck(value))break;
+    if (opCheck(value)){
+      if (calcStack.size() == 0)continue;
+      double topValue = calcStack.peek();
+      calcStack.pop();
+      double secondValue= calcStack.peek();
+      calcStack.pop();
+      calc(value,topValue,secondValue,calcStack);
+      cout << calcStack.peek() << endl;
+    }
+    else calcStack.push(atof(value.c_str()));
+    calcStackCopy = calcStack;
+    stackOutput(calcStackCopy);
+  }
   return 0;
 }
