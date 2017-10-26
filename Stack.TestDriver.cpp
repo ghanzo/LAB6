@@ -5,7 +5,7 @@
 
 int main (){
   
-    cout << endl << "||||||Testing Stack with double||||||" << endl;
+        cout << endl << "||||||Testing Stack with double||||||" << endl;
 	Stack <double> a(100);
 	assert(100 == a.capacity());
 	cout << "Pass!!" << endl;
@@ -88,7 +88,7 @@ int main (){
 	assert(a.size() == 0);
 	cout << "Pass\n" ;
 
-    // testing empty
+        // testing empty
 	cout << "\nTesting empty()\n";
 	a.clear();
 	cout << "Expected: 1 \nActual: " << a.empty() << endl;
